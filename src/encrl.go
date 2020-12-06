@@ -3,6 +3,7 @@ package main
 import (
   "fmt"
   "os"
+  "path/filepath"
 )
 
 const (
@@ -21,13 +22,18 @@ func parseArguments()[]string {
   */
   args := os.Args[1:]
   if len(args) >= 2 {
-    // There actually were two paths, so we should inform the user
-    fmt.Printf(noticeColor, "\n[READING FROM]:    ") 
-    fmt.Println(args[0])
-    fmt.Printf(noticeColor, "[WRITTING TO]:     ")
-    fmt.Println(args[1])
-  } else {
-    fmt.Printf(errorColor, "\n[FATAL ERROR]:     Requiered 2 positional parameters - base file & output file\n")
+    // Convert from the relative path to the absolute path using the filepath module
+    readingFileRoute, readingErr := filepath.Abs(args[0])
+    writingFileRoute, writingErr := filepath.Abs(args[1])
+    if readingErr == nil && writingErr == nil {
+      // There actually were two paths, so we should inform the user
+      fmt.Printf(noticeColor, "\n[READING FROM]:    ")
+      fmt.Println(readingFileRoute)
+      fmt.Printf(noticeColor, "[WRITTING TO]:     ")
+      fmt.Println(writingFileRoute)
+    } else {
+      fmt.Printf(errorColor, "[FATAL ERROR]:     One of the routes is not valid\n")
+    }
   }
   return args
 }
