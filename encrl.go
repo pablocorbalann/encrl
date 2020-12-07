@@ -15,22 +15,26 @@ const (
   debugColor   = "\033[0;36m%s\033[0m"
 )
 
-func parseArguments() (string, string) {
+func parseArguments() (string, string, string) {
   /*
   * This function is used to parse all the arguments from the "os" module. It
   * also validates the arguments before using them.
   * Then he returns a list with the arguments
   */
-  // Read the optional flags and then parse them
+  // Use the flag package to read all the flags and ten parse them using
+  // the Parse method
   readingFile := flag.String("r", "", "The file to read from.")
   writingFile := flag.String("w", "", "The file to write at")
+  codificationTable := flag.String("c", "caesar", "The codification the program should use.")
   flag.Parse()
   fmt.Printf("\n[PARSING]:         r %s | w  %s\n", *readingFile, *writingFile)
-  // Create basic variables to then return them
+  fmt.Printf("[CODIFICATION]:    %s\n", *codificationTable)
+  // Create basic variables to then return them and check if there 
+  // is a reading file and a writing file
   var readingFileRoute, writingFileRoute string
   if *readingFile == "" || *writingFile == "" {
     // One of the flags is missing so we can't parse them
-    fmt.Printf(errorColor, "[FATAL ERROR]:    Parse error, one of the flags is missing\n")
+    fmt.Printf(errorColor, "[FATAL ERROR]:     Parse error, one of the flags is missing\n")
     os.Exit(1)
   }
   // Convert from the relative path to the absolute path using the filepath module
@@ -43,12 +47,12 @@ func parseArguments() (string, string) {
     fmt.Printf(noticeColor, "[WRITTING TO]:     ")
     fmt.Println(writingFileRoute)
     // Return the complete routes
-    return readingFileRoute, writingFileRoute
+    return readingFileRoute, writingFileRoute, *codificationTable
   } else {
     fmt.Printf(errorColor, "[FATAL ERROR]:     One of the routes is not valid\n")
     os.Exit(1)
   }
-  return "", ""
+  return "", "", ""
 }
 
 func main() {
@@ -61,6 +65,6 @@ d88888b      d8b   db       .o88b.      d8888b.      db
 Y88888P      VP   V8P       Y88P'       88   YD      Y88888P 
 `
   fmt.Printf(noticeColor, encrlIcon)
-  r, w := parseArguments()
-  fmt.Println(r, w)
+  readingFile, writingFile, codification := parseArguments()
+  fmt.Println(readingFile, writingFile, codification)
 }
