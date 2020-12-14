@@ -3,21 +3,27 @@ package main
 import (
   "fmt"
   "os"
-  "io/ioutil"
+  "bufio"
 )
 const noticeColor string = "\033[1;36m%s\033[0m"
 
 func main() {
-  versionFile, err := os.Open("../version") 
+  versionFile, err := os.Open("../version.txt") 
   if err != nil {
     fmt.Println("[FATAL ERROR]:     Can not open the version file")
   }
-  version, err:= ioutil.ReadAll(versionFile)
-  // Strip the \n at the end of the file
-  version = version[:len(version) - 1]
-  if err != nil {
-    fmt.Println("[FATAL ERROR]:     Can not read the version file using io")
+  defer versionFile.Close()
+  scanner := bufio.NewScanner(versionFile)
+  var lines []string
+  for scanner.Scan() {
+    lines = append(lines, scanner.Text())
   }
+  err = scanner.Err()
+  if err != nil {
+    fmt.Println("[FATAL ERROR]:     Can not read the version file using a scanner")
+  }
+  // format the version itself
+  version := fmt.Sprintf("%v.%v.%v", lines[0], lines[1], lines[2])
   encrlIcon := `
 d88888b      d8b   db       .o88b.      d8888b.      db      
 88           888o  88      d8P  Y8      88   8D      88      
@@ -31,7 +37,7 @@ Y88888P      VP   V8P       Y88P'       88   YD      Y88888P
 Encrl - the simplest encryption tool created in Golang
 More information at: https://github.com/pblcc/encrl
 v[%s] Alpha - by Pablo Corbalán (@pblcc)
-  `, string(version))
+  `, version)
   fmt.Printf(noticeColor, info)
   readingFile, writingFile, codification := loadArguments()
   encrypt(loadCipher(codification), loadFile(readingFile))
