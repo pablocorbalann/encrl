@@ -22,7 +22,13 @@ d88888b      d8b   db       .o88b.      d8888b.      db
 Y88888P      VP   V8P       Y88P'       88   YD      Y88888P 
 `
   fmt.Printf(noticeColor, encrlIcon)
+  info := `
+Encrl - the simplest encryption tool created in Golang
+More information at: https://github.com/pblcc/encrl
+v[0.0.17] Alpha - by Pablo Corbalán (@pblcc)
+  `
+  fmt.Printf(noticeColor, info)
   readingFile, writingFile, codification := loadArguments()
-  loadCipher(codification)
+  encrypt(loadCipher(codification), loadFile(readingFile))
   fmt.Sprintf(readingFile, writingFile)
 }

@@ -21,9 +21,12 @@ func loadArguments() (string, string, string) {
   * This function is used to parse all the arguments from the "os" module. It
   * also validates the arguments before using them.
   * Then he returns a list with the arguments
+  *
+  * Returns:
+  *   - The reading file route
+  *   - The writing file route 
+  *   - The codification (default is caesar)
   */
-  // Use the flag package to read all the flags and ten parse them using
-  // the Parse method
   readingFile := flag.String("r", "", "The file to read from")
   writingFile := flag.String("w", "", "The file to write at")
   codificationTable := flag.String("c", "caesar", "The codification the program should use.")
@@ -35,7 +38,7 @@ func loadArguments() (string, string, string) {
   var readingFileRoute, writingFileRoute string
   if *readingFile == "" || *writingFile == "" {
     // One of the flags is missing so we can't parse them
-    fmt.Printf(errorColor, "[FATAL ERROR]:     Parse error, one of the flags is missing\n")
+    fmt.Println("[FATAL ERROR]:     Parse error, one of the flags is missing")
     os.Exit(1)
   } 
   // Convert from the relative path to the absolute path using the filepath module
@@ -43,14 +46,12 @@ func loadArguments() (string, string, string) {
   writingFileRoute, writingErr := filepath.Abs(*writingFile)
   if readingErr == nil && writingErr == nil {
     // There actually were two paths, so we should inform the user
-    fmt.Printf(noticeColor, "\n[READING FROM]:    ")
-    fmt.Println(readingFileRoute)
-    fmt.Printf(noticeColor, "[WRITTING TO]:     ")
-    fmt.Println(writingFileRoute)
+    fmt.Printf("\n[READING FROM]:    %s\n", readingFileRoute)
+    fmt.Printf("[WRITTING TO]:     %s\n", writingFileRoute)
     // Return the complete routes
     return readingFileRoute, writingFileRoute, *codificationTable
   } else {
-    fmt.Printf(errorColor, "[FATAL ERROR]:     One of the routes is not valid\n")
+    fmt.Println("[FATAL ERROR]:     One of the routes is not valid")
     os.Exit(1)
   } 
   return "", "", ""
@@ -61,15 +62,21 @@ func loadCipher (cipher string) map[string]string {
   /*
   * This function loads a cipher from the codifications/ folder to then return it.
   * The default cipher that is loaded is the caesar cipher.
+  *
+  * Parameters:
+  *   cipher -> The cipher to be loaded [caesar by defdault]
+  *
+  * Returns:
+  *   The loaded cipher (map[string]string)
   */
   cipherToLoad, pathErr := filepath.Abs(fmt.Sprintf("../codifications/%s.json", cipher))
   if pathErr != nil {
-    fmt.Printf(errorColor, "[FATAL ERROR]:      Can not get the absolute path of codification\n")
+    fmt.Println("[FATAL ERROR]:      Can not get the absolute path of codification")
     os.Exit(1)
   }
   jsonCipher, err := ioutil.ReadFile(cipherToLoad)
   if err != nil {
-    fmt.Printf(errorColor, "[FATAL ERROR]:      Can not load the json cipher file\n")
+    fmt.Println("[FATAL ERROR]:     Can not load the json cipher file")
     os.Exit(1)
   }
   // Inform the user about the loading cipher
@@ -78,10 +85,24 @@ func loadCipher (cipher string) map[string]string {
   var jsonCodificationData map[string]string
   err = json.Unmarshal(jsonCipher, &jsonCodificationData)
   if err != nil {
-    fmt.Println(errorColor, "[FATAL ERROR]:      Can not Unmarshal the json cipher file\n")
+    fmt.Println("[FATAL ERROR]:      Can not Unmarshal the json cipher file\n")
     os.Exit(1)
   }
-  fmt.Printf(noticeColor, "[CIPHER]:          ")
-  fmt.Println("Loaded correctly")
+  fmt.Println("[CIPHER]:          Loaded correctly")
   return jsonCodificationData
+}
+
+func loadFile(fileRoute string) []byte {
+  fmt.Printf("[LOADING]:         File located at - %s\n", fileRoute)
+  file, err := os.Open(fileRoute)
+  if err != nil {
+    fmt.Printf("[FATAL ERROR]:     Encrl was not able to open the file located at %s.\n", fileRoute)
+    os.Exit(1)
+  }
+  fileContent, err := ioutil.ReadAll(file)
+  if err != nil {
+    fmt.Printf("[FATAL ERROR]:     Can not convert the file located at %s to a byte(s) array.\n", fileRoute)
+    os.Exit(1)
+  }
+  return fileContent
 }
