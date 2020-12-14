@@ -1,0 +1,21 @@
+name: increase-version
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+    resources:
+        name: increment-version
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+            - uses: actions/setup-node@v1
+            - name: Increment
+              run: upd-versionsh
+            - name: Update resources
+              uses: test-room-7/action-update-file@v1
+              with:
+                  file-path: "version.txt"
+                  commit-msg: "[VERSION: increased in one"
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
