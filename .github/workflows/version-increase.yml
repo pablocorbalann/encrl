@@ -11,7 +11,9 @@ jobs:
         steps:
             - uses: actions/checkout@v1
             - uses: actions/setup-node@v1
-            - name: Increment
+            - name: give-permission
+              run: chmod +x .scripts/upd-version.sh
+            - name: increment
               run:  .scripts/upd-version.sh 
             - name: Update resources
               uses: test-room-7/action-update-file@v1
