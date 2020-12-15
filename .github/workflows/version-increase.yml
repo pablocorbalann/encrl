@@ -19,5 +19,5 @@ jobs:
               uses: test-room-7/action-update-file@v1
               with:
                   file-path: "version.txt"
-                  commit-msg: "[VERSION: increased in one"
+                  commit-msg: "[VERSION]: increased in one"
                   github-token: ${{ secrets.GITHUB_TOKEN }}
