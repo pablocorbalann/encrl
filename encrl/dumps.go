@@ -57,5 +57,5 @@ func dump(fileRoute string, cipherBytes []byte) {
     fmt.Println("[FATAL ERROR]:     Can't write the file using the os module")
     os.Exit(1)
   }
-  fmt.Printf("[DUMPS]:             Encrl dumped %d bytes\n", nb)
+  fmt.Printf("\n[DUMPS]:             Encrl dumped %d bytes\n", nb)
 }
