@@ -26,7 +26,9 @@ func encrypt(cipher map[string]string, file []byte) []byte{
     charsCount++
     value, exists := cipher[string(letter)]
     if exists {
-      modifiedFile = append(modifiedFile, value[0])
+      for i := 0; i < len(value); i++ {
+        modifiedFile = append(modifiedFile, value[i])
+      }
     } else {
       // If the character is not located in the codification, set the new value 
       // to the old letter
