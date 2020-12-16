@@ -40,6 +40,6 @@ v[%s] Alpha - by Pablo Corbalán (@pblcc)
   `, version)
   fmt.Printf(noticeColor, info)
   readingFile, writingFile, codification := loadArguments()
-  encrypt(loadCipher(codification), loadFile(readingFile))
-  fmt.Sprintf(readingFile, writingFile)
+  e := encrypt(loadCipher(codification), loadFile(readingFile))
+  dump(writingFile, e)
 }

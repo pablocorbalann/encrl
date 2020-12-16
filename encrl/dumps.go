@@ -16,20 +16,22 @@ func checkIfFile(fileRoute string) bool{
   * Returns:
   *   true if found
   * */
+  var val bool
   _, err := os.Stat(fileRoute)
   if err == nil {
     // The file actually exists
-    return true
+    val = true
   } else if os.IsNotExist(err) {
     // THe file doesn't exists
-    return false
+    val = false
   } else {
     // Schrodinger: file may or may not exist. See err for details.
     fmt.Println("[FATAL ERROR]:     Schrodinger location")
   }
+  return val
 }
 
-func decodeCipherBytes(fileRoute string, cipherBytes []byte) {
+func dump(fileRoute string, cipherBytes []byte) {
   /*
   * This function is used to decode a given cipher in a byte(s)
   * format to a string, so it can be dumped to a file
@@ -43,4 +45,17 @@ func decodeCipherBytes(fileRoute string, cipherBytes []byte) {
     fmt.Printf("[RECREATING]:      %s", fileRoute)
     os.Remove(fileRoute)
   }
+  // Once we have removed the file, we should write all the cipher bytes to the file itself
+  file, err := os.Create(fileRoute)
+  if err != nil {
+    fmt.Println("[FATAL ERROR]:     Can't create a new file at: ", fileRoute)
+    os.Exit(1)
+  }
+  nb, err := file.Write(cipherBytes)
+  defer file.Close()
+  if err != nil {
+    fmt.Println("[FATAL ERROR]:     Can't write the file using the os module")
+    os.Exit(1)
+  }
+  fmt.Printf("[DUMPS]:             Encrl dumped %d bytes\n", nb)
 }
