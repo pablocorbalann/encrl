@@ -39,12 +39,22 @@ More information at: https://github.com/pblcc/encrl
 v[%s] Alpha - by Pablo Corbalán (@pblcc)
   `, version)
   fmt.Printf(noticeColor, info)
-  readingFile, writingFile, codification, decrypt := loadArguments()
-  cipher = loadCipher(codification)
+  readingFile, writingFile, codification := loadArguments()
+  // Load some basic stuff as the cipher and the file
+  cipher := loadCipher(codification)
+  file := loadFile(readingFile)
+  // Remove if decrypt
+  e := encrypt(cipher, file)
+  /*
+  This part of the code is not working, once we solve
+  the decrypt() function we can remove this comment
+
+
   if !decrypt {
     e := encrypt(cipher, loadFile(readingFile))
   } else {
     e := decrypt(cipher, loadFile(readingFile))
   }
+  */
   dump(writingFile, e)
 }
