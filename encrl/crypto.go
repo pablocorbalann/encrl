@@ -8,6 +8,35 @@ import (
   "fmt"
 )
 
+func reverseCipher(cipher map[string]string) map[string]string{
+  /*
+  * This functions uses a chipher and reverse its, so for example:
+  *
+  *   {
+  *     "a": 1,
+  *     "b": 2,
+  *     ...
+  *   }
+  *
+  * Converts to:
+  *   {
+  *     1: "a",
+  *     2: "b",
+  *   }
+  *
+  * Parameters: 
+  *   cipher -> The cipher to reverse
+  *
+  * Returns:
+  *   The reversed cipher
+  * */
+  reversed := make(map[string]string)
+  for key, value := range cipher {
+    reversed[value] = key
+  }
+  return reversed
+}
+
 func encrypt(cipher map[string]string, file []byte) []byte{
   /*
   * This function is used to codificate a file using a given cipher

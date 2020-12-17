@@ -39,7 +39,12 @@ More information at: https://github.com/pblcc/encrl
 v[%s] Alpha - by Pablo Corbalán (@pblcc)
   `, version)
   fmt.Printf(noticeColor, info)
-  readingFile, writingFile, codification := loadArguments()
-  e := encrypt(loadCipher(codification), loadFile(readingFile))
+  readingFile, writingFile, codification, decrypt := loadArguments()
+  cipher = loadCipher(codification)
+  if !decrypt {
+    e := encrypt(cipher, loadFile(readingFile))
+  } else {
+    e := decrypt(cipher, loadFile(readingFile))
+  }
   dump(writingFile, e)
 }
