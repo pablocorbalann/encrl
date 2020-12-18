@@ -14,9 +14,10 @@ import (
   "os"
   "flag"
   "path/filepath"
+  "strconv"
 )
 
-func loadArguments() (string, string, string) {
+func loadArguments() (string, string, string, string) {
   /*
   * This function is used to parse all the arguments from the "os" module. It
   * also validates the arguments before using them.
@@ -30,9 +31,11 @@ func loadArguments() (string, string, string) {
   readingFile := flag.String("r", "", "The file to read from")
   writingFile := flag.String("w", "", "The file to write at")
   codificationTable := flag.String("c", "caesar", "The codification the program should use.")
+  decrypt := flag.Bool("d", false, "Do you want to decrypt instead of encrypt?")
   flag.Parse()
   fmt.Printf("\n[PARSING]:         r %s | w  %s\n", *readingFile, *writingFile)
   fmt.Printf("[CODIFICATION]:    %s\n", *codificationTable)
+  fmt.Printf("[DECRYPT]:         %b", *decrypt)
   // Create basic variables to then return them and check if there•
   // is a reading file and a writing file
   var readingFileRoute, writingFileRoute string
@@ -49,12 +52,12 @@ func loadArguments() (string, string, string) {
     fmt.Printf("\n[READING FROM]:    %s\n", readingFileRoute)
     fmt.Printf("[WRITTING TO]:     %s\n", writingFileRoute)
     // Return the complete routes
-    return readingFileRoute, writingFileRoute, *codificationTable
+    return readingFileRoute, writingFileRoute, *codificationTable, strconv.FormatBool(*decrypt)
   } else {
     fmt.Println("[FATAL ERROR]:     One of the routes is not valid")
     os.Exit(1)
   } 
-  return "", "", ""
+  return "", "", "", ""
 }
     
  

@@ -4,6 +4,7 @@ import (
   "fmt"
   "os"
   "bufio"
+  "strconv"
 )
 const noticeColor string = "\033[1;36m%s\033[0m"
 
@@ -39,22 +40,11 @@ More information at: https://github.com/pblcc/encrl
 v[%s] Alpha - by Pablo Corbalán (@pblcc)
   `, version)
   fmt.Printf(noticeColor, info)
-  readingFile, writingFile, codification := loadArguments()
+  readingFile, writingFile, codification, decrypt := loadArguments()
   // Load some basic stuff as the cipher and the file
+  parseDecrypt, err := strconv.ParseBool(decrypt)
   cipher := loadCipher(codification)
   file := loadFile(readingFile)
-  // Remove if decrypt
-  e := encrypt(cipher, file)
-  /*
-  This part of the code is not working, once we solve
-  the decrypt() function we can remove this comment
-
-
-  if !decrypt {
-    e := encrypt(cipher, loadFile(readingFile))
-  } else {
-    e := decrypt(cipher, loadFile(readingFile))
-  }
-  */
+  e := encrypt(parseDecrypt, cipher, file)
   dump(writingFile, e)
 }

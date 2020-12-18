@@ -37,11 +37,12 @@ func reverseCipher(cipher map[string]string) map[string]string{
   return reversed
 }
 
-func encrypt(cipher map[string]string, file []byte) []byte{
+func encrypt(decrypt bool, cipher map[string]string, file []byte) []byte{
   /*
   * This function is used to codificate a file using a given cipher
   *
   * Parameters:
+  *   decrypt -> A flag fvariable for encrypt / decrypt
   *   cipher -> The cipher to use when codificating (see more at ~/codiffications/ )
   *   file -> An array of bytes with the content of the fyle to encrypt
   *
@@ -51,6 +52,10 @@ func encrypt(cipher map[string]string, file []byte) []byte{
   * */
   var charsCount uint
   var modifiedFile []byte
+  // Reverse the cipher if it's needed
+  if decrypt {
+    cipher = reverseCipher(cipher)
+  }
   for _, letter := range file {
     charsCount++
     value, exists := cipher[string(letter)]
