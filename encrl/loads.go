@@ -35,7 +35,7 @@ func loadArguments() (string, string, string, string) {
   flag.Parse()
   fmt.Printf("\n[PARSING]:         r %s | w  %s\n", *readingFile, *writingFile)
   fmt.Printf("[CODIFICATION]:    %s\n", *codificationTable)
-  fmt.Printf("[DECRYPT]:         %b", *decrypt)
+  fmt.Printf("[DECRYPT]:         %v", *decrypt)
   // Create basic variables to then return them and check if there•
   // is a reading file and a writing file
   var readingFileRoute, writingFileRoute string
