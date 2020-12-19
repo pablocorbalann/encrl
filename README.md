@@ -60,10 +60,10 @@ git clone https://github.com/pblcc/encrl.git
 ```
 ###### Get inside the repository source code
 ```
-cd encrl/encrl
+cd encrl
 ```
 ###### Build the code using Go
 ```
-go build
+go build -o encrl
 ```
 ###### Use the executable

@@ -5,7 +5,7 @@
 * All the codifications tables are inside the codifications/ file. For example
 * codifications/caesar.json
 */
-package main 
+package main
 
 import (
   "encoding/json"
