@@ -9,7 +9,7 @@ import (
 const noticeColor string = "\033[1;36m%s\033[0m"
 
 func main() {
-  versionFile, err := os.Open("../version.txt") 
+  versionFile, err := os.Open("version.txt") 
   if err != nil {
     fmt.Println("[FATAL ERROR]:     Can not open the version file")
   }
