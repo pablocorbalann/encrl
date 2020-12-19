@@ -42,6 +42,7 @@ As I have said before this is my first real project in Golang, so I appreciate a
 ###### Options:
 ```
 -c <cipher>: The  cipher to use
+-d: Flag to decrypt instead of encrypt
 ```
 
 ---
