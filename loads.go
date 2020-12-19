@@ -72,7 +72,7 @@ func loadCipher (cipher string) map[string]string {
   * Returns:
   *   The loaded cipher (map[string]string)
   */
-  cipherToLoad, pathErr := filepath.Abs(fmt.Sprintf("../codifications/%s.json", cipher))
+  cipherToLoad, pathErr := filepath.Abs(fmt.Sprintf("/codifications/%s.json", cipher))
   if pathErr != nil {
     fmt.Println("[FATAL ERROR]:      Can not get the absolute path of codification")
     os.Exit(1)
